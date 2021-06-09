@@ -1,23 +1,34 @@
-language: java
-
-services:
-  -  docker
-
-stages:
-  -  test
-  -  deploy
-
-jobs:
-  include:
-    -  stage: test
-      name: "Testing Application"
-      services: postgresql
-
-before_script:
-  -  psql -c 'CREATE DATABASE praticandoAPI_test;' -U postgres
-script:
-  -  make test
-  -  stage: deploy
-      name: "Deploy Application to Production"
-      script:
-        -  make deploy
+{
+  "before_script": [
+    "psql -c 'CREATE DATABASE praticandoAPI_test;' -U postgres"
+  ], 
+  "jobs": {
+    "include": [
+      {
+        "services": "postgresql", 
+        "name": "Testing Application", 
+        "stage": "test"
+      }
+    ]
+  }, 
+  "language": "java", 
+  "script": [
+    "make test", 
+    {
+      "stage": "deploy name:"Deploy Application to Production" - script:make deploy"
+    }
+  ], 
+  "cache": {
+    "directories": [
+      "$HOME/.m2"
+    ]
+  }, 
+  "install": "skip", 
+  "services": [
+    "docker"
+  ], 
+  "stages": [
+    "test", 
+    "deploy"
+  ]
+}
