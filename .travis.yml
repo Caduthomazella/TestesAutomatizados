@@ -1,19 +1,1 @@
-before_script: 
-  - "psql -c 'CREATE DATABASE praticandoAPI_test;' -U postgres"
-cache: 
-  directories: 
-    - $HOME/.m2
-install: skip
-jobs: 
-  include: 
-    - 
-      name: "Testing Application"
-      services: postgresql
-      stage: test
 language: java
-script: "make test stage:deploy name:"Deploy Application to Production" script:make deploy"
-services: 
-  - docker
-stages: 
-  - test
-  - deploy
