@@ -1,4 +1,28 @@
 language: java
-rvm:
- - 11.0.2
- - javac
+
+cache:
+  directories:
+    - $HOME/.m2
+
+services:
+  - docker
+
+stages:
+  - test
+  - deploy
+
+install: skip
+
+jobs:
+  include:
+    - stage: test
+      name: "Testing Application"
+      services: postgresql
+  before_script:
+    - psql -c "CREATE DATABASE praticandoAPI_test;"" -U postgres
+  script:
+    - make test
+    - stage: deploy
+      name: "Deploy Application to Production"
+  script:
+    - make deploy
